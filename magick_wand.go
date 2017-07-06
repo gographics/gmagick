@@ -1802,17 +1802,19 @@ func (mw *MagickWand) WriteImageFile(out *os.File) error {
 	return mw.getLastErrorIfFailed(ok)
 }
 
-// Writes an image to []byte
+// Implements direct to memory image formats.  It
+// returns the image as a byte array (a formatted "file" in memory),
+// starting from the current position in the image sequence.
+// Use MagickSetImageFormat() to set the format to write to the blob
+// (GIF, JPEG,  PNG, etc.).
 func (mw *MagickWand) WriteImageBlob() []byte {
-	buff := make([]byte, 0)
-	var length C.size_t
+	length := C.size_t(0)
 	d := C.MagickWriteImageBlob(mw.mw, &length)
 	if d != nil {
-		data := (*[1<<31]byte)(unsafe.Pointer(d))[:length]
-		buff = append(buff, data...)
-		C.MagickRelinquishMemory(unsafe.Pointer(d))
+		defer C.MagickRelinquishMemory(unsafe.Pointer(d))
+		return C.GoBytes(unsafe.Pointer(d), C.int(length))
 	}
-	return buff
+	return make([]byte, 0)
 }
 
 // Writes an image or image sequence.
