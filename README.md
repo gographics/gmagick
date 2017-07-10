@@ -11,7 +11,7 @@ pacman -S mingw-w64-x86_64-zlib
 pacman -S mingw-w64-x86_64-pkg-config
 pacman -S mingw-w64-x86_64-graphicsmagick
 ```
-+ Add follwing environment variable:
++ Add following environment variable:
 ```
 set PATH=<msys64>\mingw64\bin;%PATH%
 set PKG_CONFIG_PATH=<msys64>\mingw64\lib\pkgconfig
