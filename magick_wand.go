@@ -391,6 +391,12 @@ func (mw *MagickWand) ExtentImage(width, height uint, x, y int) error {
 	return mw.getLastErrorIfFailed(ok)
 }
 
+// MagickFlattenImages() merges a sequence of images. This is useful for combining Photoshop layers into a single image.
+func (mw *MagickWand) FlattenImages() error {
+	ok := C.MagickFlattenImages(mw.mw)
+	return mw.getLastErrorIfFailed(ok)
+}
+
 // Creates a vertical mirror image by reflecting the pixels around the central
 // x-axis.
 func (mw *MagickWand) FlipImage() error {
