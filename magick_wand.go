@@ -1476,6 +1476,19 @@ func (mw *MagickWand) SetImageMatteColor(matte *PixelWand) error {
 	return mw.getLastErrorIfFailed(ok)
 }
 
+// Sets the image orientation.
+func (mw *MagickWand) SetImageOrientation(orientation OrientationType) error {
+	ok := C.MagickSetImageOrientation(mw.mw, C.OrientationType(orientation))
+	return mw.getLastErrorIfFailed(ok)
+}
+
+// Auto orient the image
+func (mw *MagickWand) AutoOrientImage(orientation OrientationType) error {
+	ok := C.MagickAutoOrientImage(mw.mw, C.OrientationType(orientation))
+	return mw.getLastErrorIfFailed(ok)
+}
+
+
 // Sets the page geometry of the image.
 func (mw *MagickWand) SetImagePage(width, height uint, x, y int) error {
 	ok := C.MagickSetImagePage(mw.mw, C.ulong(width), C.ulong(height), C.long(x), C.long(y))
