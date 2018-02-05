@@ -35,7 +35,6 @@ func NewMagickWand() *MagickWand {
 	return newMagickWand(C.NewMagickWand())
 }
 
-
 // Makes an exact copy of the MagickWand object
 func (mw *MagickWand) Clone() *MagickWand {
 	return newMagickWand(C.CloneMagickWand(mw.mw))
@@ -1488,7 +1487,6 @@ func (mw *MagickWand) AutoOrientImage(orientation OrientationType) error {
 	return mw.getLastErrorIfFailed(ok)
 }
 
-
 // Sets the page geometry of the image.
 func (mw *MagickWand) SetImagePage(width, height uint, x, y int) error {
 	ok := C.MagickSetImagePage(mw.mw, C.ulong(width), C.ulong(height), C.long(x), C.long(y))
@@ -1551,6 +1549,19 @@ func (mw *MagickWand) SetImageWhitePoint(x, y float64) error {
 // Sets the image interlacing scheme
 func (mw *MagickWand) SetInterlaceScheme(scheme InterlaceType) error {
 	ok := C.MagickSetInterlaceScheme(mw.mw, C.InterlaceType(scheme))
+	return mw.getLastErrorIfFailed(ok)
+}
+
+// Associates one or options with a particular image format (.e.g
+// MagickSetImageOption(wand,"jpeg","preserve-settings","true").
+func (mw *MagickWand) MagickSetImageOption(format, key, value string) error {
+	csformat := C.CString(format)
+	defer C.free(unsafe.Pointer(csformat))
+	cskey := C.CString(key)
+	defer C.free(unsafe.Pointer(cskey))
+	csvalue := C.CString(value)
+	defer C.free(unsafe.Pointer(csvalue))
+	ok := C.MagickSetImageOption(mw.mw, csformat, cskey, csvalue)
 	return mw.getLastErrorIfFailed(ok)
 }
 
@@ -1849,8 +1860,6 @@ func (mw *MagickWand) WriteImagesFile(out *os.File, adjoin bool) error {
 	return mw.getLastErrorIfFailed(ok)
 }
 
-
-
 // cfdopen returns a C-level FILE*. mode should be as described in fdopen(3).
 // Caller is responsible for closing the file when successfully returned,
 // via C.fclose()
@@ -1868,4 +1877,3 @@ func cfdopen(file *os.File, mode string) (*C.FILE, error) {
 
 	return cfile, nil
 }
-

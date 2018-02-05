@@ -22,9 +22,9 @@ var (
 	envSemaphore = make(chan struct{}, 1)
 
 	// Ref counters
-	magickWandCounter    int64
-	drawingWandCounter   int64
-	pixelWandCounter     int64
+	magickWandCounter  int64
+	drawingWandCounter int64
+	pixelWandCounter   int64
 )
 
 // Initializes the MagickWand environment
@@ -93,4 +93,3 @@ func isImageMagickCleaned() bool {
 
 	return true
 }
-
