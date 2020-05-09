@@ -6,9 +6,9 @@ package gmagick
 import "C"
 
 import (
+	"errors"
 	"fmt"
 	"unsafe"
-	"errors"
 )
 
 type DrawingWandException struct {

@@ -1,8 +1,8 @@
 package gmagick
 
 import (
-	"sync"
 	"runtime"
+	"sync"
 	"sync/atomic"
 	"unsafe"
 )
