@@ -659,6 +659,13 @@ func (mw *MagickWand) GetImageMatteColor() (matteColor *PixelWand, err error) {
 	return cptrpw, mw.getLastErrorIfFailed(ok)
 }
 
+// Returns the image orientation.
+func (mw *MagickWand) GetImageOrientation() OrientationType {
+	ret := OrientationType(C.MagickGetImageOrientation(mw.mw))
+	runtime.KeepAlive(mw)
+	return ret
+}
+
 // Returns the page geometry associated with the image.
 //
 // w, h: the page width and height
@@ -1474,6 +1481,8 @@ func (mw *MagickWand) SetImageMatteColor(matte *PixelWand) error {
 	ok := C.MagickSetImageMatteColor(mw.mw, matte.pw)
 	return mw.getLastErrorIfFailed(ok)
 }
+
+
 
 // Sets the image orientation.
 func (mw *MagickWand) SetImageOrientation(orientation OrientationType) error {
